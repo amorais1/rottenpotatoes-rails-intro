@@ -9,10 +9,16 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-
   def index
+    @all_ratings = ['G', 'PG', 'PG-13', 'R']
     @movies = Movie.all
+  #.sort_by { |movie| movie.title}
+  #movies_path= Movie.all.sort_by { |movie| movie.title}
+    @movies= Movie.order(params[:sort])
+    @movies.where(:rating => params[:ratings].keys) if params[:ratings].present?
+   # @all_ratings = (params[:ratings].present? ? params[:ratings] : [])
   end
+
 
   def new
     # default: render 'new' template
@@ -41,5 +47,8 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+  
 
 end
+
+
