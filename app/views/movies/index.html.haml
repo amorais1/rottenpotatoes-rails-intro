@@ -12,9 +12,9 @@
 %table#movies
   %thead
     %tr
-      %th#title_header{:id => "title_header", :class => ('hilite' if params[:sort].to_s == "title") }=link_to "Movie Title", movies_path(:sort => 'title')
+      %th#title_header{:id => "title_header", :class => (@hilite_name) }=link_to "Movie Title", movies_path(:sort => 'title')
       %th Rating
-      %th#release_date_header{:id => "release_date_header", :class => ('hilite' if params[:sort].to_s == "release_date")}=link_to "Release Date", movies_path(:sort => 'release_date' )
+      %th#release_date_header{:id => "release_date_header", :class =>(@hilite_date) }=link_to "Release Date", movies_path(:sort => 'release_date' )
       %th More Info
       
   %tbody
