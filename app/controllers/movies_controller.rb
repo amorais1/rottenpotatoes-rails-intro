@@ -17,15 +17,34 @@ class MoviesController < ApplicationController
   #.sort_by { |movie| movie.title}
   #movies_path= Movie.all.sort_by { |movie| movie.title}
   
-    if params.has_key?(:sort)
-    @movies= Movie.order(params[:sort])
-    else
-    @movies.where(:rating => params[:ratings].keys) if params[:ratings].present?
-   # byebug
-    @movies= Movie.where(:rating => params[:ratings]).order params[:sort]
+    #if params.has_key?(:sort)
+    #@movies= Movie.order(params[:sort])
+    #else
+    #@movies.where(:rating => params[:ratings].keys) if params[:ratings].present?
+    #@movies= Movie.where(:rating => params[:ratings].keys).order params[:sort]
 
    # @all_ratings = (params[:ratings].present? ? params[:ratings] : [])
-    end
+   if params[:ratings] != nil
+     @movies= Movie.where(:rating => params[:ratings].keys).order params[:sort]
+     session[:ratings]= params[:ratings]
+   elsif
+     session[:ratings]= params[:ratings] !=nil
+     params[:ratings] = session[:ratings]
+     @movies= Movie.where(:rating => params[:ratings].keys).order params[:sort]
+   
+   end
+   if params[:sort] != nil
+     case params[:sort]
+     when 'title'
+     @hilite_name= 'hilite'
+     @movies= Movie.order("title").all
+     session[:sort] = 'title'
+     when 'release_date'
+     @hilite_date= 'hilite'
+     @movies= Movie.order("release_date").all
+     session[:sort] = 'release_date'
+     end
+   end
   end
 
   def new
